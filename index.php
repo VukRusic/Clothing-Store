@@ -1,5 +1,17 @@
 <?php
 session_start();
+include "php/connect.php";
+
+$proizvods = null;
+
+$statusP = "sale";
+$upit = "SELECT * FROM proizvod WHERE statusP='$statusP'";
+if (!$rez = $mysqli->query($upit)) {
+  echo "Greska: " . $mysqli->error;
+} else {
+  $proizvods = $rez->fetch_all();
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -8,6 +20,7 @@ session_start();
 <head>
   <title>Elpida</title>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://kit.fontawesome.com/b38f355859.js" crossorigin="anonymous"></script>
@@ -30,10 +43,6 @@ session_start();
             <form id="searchForm" method="post">
               <label>Nazivu</label>
               <input type="text" class="field" name="Naziv" />
-              <label>Kategoriji</label>
-              <select class="field">
-                <option value="">-- Izaberi kategoriju --</option>
-              </select>
               </br></br>
               <input type="button" id="search" class="search-submit" value="Pretraga" />
             </form>
@@ -55,8 +64,8 @@ session_start();
               <li><a onclick="show2()"><i class="fas fa-plus-circle"></i></a>
                 <a onclick="searchCategorie('Deca')"> Deca</a>
                 <ul id="showcategorie2">
-                  <li id="subcategorie" onclick="searchCategorie('Deca','M')"><a>Dečaci</a></li>
-                  <li id="subcategorie" onclick="searchCategorie('Deca','Z')"><a>Devojčice</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Deca','M')"> <a>Dečaci</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Deca','Z')"> <a>Devojčice</a></li>
                 </ul>
               </li>
             </ul>
@@ -94,30 +103,17 @@ session_start();
         <div class="products">
           <div class="cl">&nbsp;</div>
           <ul>
-            <li> <a href="#"><img src="img/super.jpg" alt="super" /></a>
-              <div class="product-info">
-                <h3>Duks</h3>
-                <div class="product-desc">
-                  <button onclick="addToCart('super')" class="btn btn-primary">Dodaj u korpu</button>
+            <?php foreach ($proizvods as $proizvod) : ?>
+              <li>
+                <a href="#"><img class="middle" src="img/<?= $proizvod[7] ?>" alt="<?= $proizvod[1] ?>" /></a>
+                <div class="product-info">
+                  <h3><?php echo $proizvod[3] ?></h3>
+                  <div class="product-desc">
+                    <button onclick="addToCart('<?= $proizvod[1] ?>')" class="btn btn-primary">Dodaj u korpu</button>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li> <a href="#"><img class="middle" src="img/dog.jpg" alt="super" /></a>
-              <div class="product-info">
-                <h3>Majica</h3>
-                <div class="product-desc">
-                  <button onclick="addToCart('snupi')" class="btn btn-primary">Dodaj u korpu</button>
-                </div>
-              </div>
-            </li>
-            <li> <a href="#" class="last"><img src="img/snupi.jpg" alt="super" /></a>
-              <div class="product-info">
-                <h3>Duks</h3>
-                <div class="product-desc">
-                  <button onclick="addToCart('snupi')" class="btn btn-primary">Dodaj u korpu</button>
-                </div>
-              </div>
-            </li>
+              </li>
+            <?php endforeach; ?>
           </ul>
           <div class="cl">&nbsp;</div>
         </div>
