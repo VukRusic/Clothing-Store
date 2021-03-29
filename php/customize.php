@@ -53,7 +53,7 @@ if (!$rez = $mysqli->query($upit)) {
         </tbody>
     </table>
 </div>
-<div class="col-md-8">
+<div class="col-md-6" id="proizvods">
     <h1>Objavljeni proizvodi:</h1>
     <table class="products-list">
         <thead>
@@ -84,13 +84,16 @@ if (!$rez = $mysqli->query($upit)) {
                         <td><?= $product[7] ?></td>
                         <td><?= $product[5] ?></td>
                         <td><a onclick="openModal1('<?= $product[5] ?>','<?= $product[4] ?>','<?= $product[1] ?>')"><i class="fas fa-edit fa-2x"></i></a></td>
-
-                        <td class="del"><a><i class="fas fa-trash-alt fa-2x"></i></a></td>
+                        <td class="del"><a onclick="openModal2('<?= $product[1] ?>')"><i class="fas fa-trash-alt fa-2x"></i></a></td>
                     </tr>
                     <div class="cd-popup" id="pop1" role="alert">
                         <div class="cd-popup-container admin-popup">
                             <p id="naziv" style="display: none;"></p>
-                            <p class="pop-tekst2" style="display: none;">Da li sigurno želite da obrišete izabrani proizvod?</p>
+                            <div id="popup2-tekst" style="display: none;">
+                            <p class="pop-tekst2">Da li sigurno želite da obrišete izabrani proizvod?</p>
+                            <button type="submit" name="submit" class="btn btn-success status-btn" onclick="deleteProduct()">Da</button>
+                            <button type="submit" name="submit" class="btn btn-danger status-btn" onclick="closeModal2()">Ne</button>
+                            </div>
                             <div id="formP">
 
                             </div>
@@ -101,7 +104,25 @@ if (!$rez = $mysqli->query($upit)) {
         </tbody>
     </table>
 </div>
-<div class="col-md-2 right">
+<div class="col-md-4">
+    <h1>Kreiranje novog proizvoda:</h1>
+    <form id="form3" enctype="multipart/form-data" method="post" action="php/createProduct.php">
+    <label class="info-label">Naziv: </label>
+    <input class="info-text" name="naziv" size="15" required><br><br>
+    <label class="info-label">Kategorija: </label>
+    <input class="info-text" name="kategorija" size="15" required><br><br>
+    <label class="info-label">Podkategorija: </label>
+    <input class="info-text" name="podkategorija" size="15" required><br><br>
+    <label class="info-label">Cena: </label>
+    <input class="info-text" name="cena" size="15" required><br><br>
+    <label class="info-label">Pol: </label>
+    <input class="info-text" name="pol" size="15" required><br><br>
+    <label class="info-label">Status: </label>
+    <input class="info-text" name="statusP" size="15" required><br><br>
+    <label class="info-label">Izaberi sliku: </label>
+    <input type="file" name="upload"><br><br>
+    <input type="submit" value="Kreiraj" class="btn btn-success" id="btnKreiraj">
+</form>
 </div>
 
 <script>
@@ -139,6 +160,16 @@ if (!$rez = $mysqli->query($upit)) {
         $('#pop1').removeClass('is-visible');
     }
 
+    function openModal2(_naziv) {
+        $('#pop1').addClass('is-visible');
+        $('#popup2-tekst').css("display","block");
+        $('#naziv').html(_naziv);
+    }
+
+    function closeModal2() {
+        $('#pop1').removeClass('is-visible');
+    }
+
     function updateProduct(_status, _cena, _naziv) {
         status = _status;
         cena = _cena;
@@ -154,6 +185,22 @@ if (!$rez = $mysqli->query($upit)) {
             },
             success: function(response) {
                 $('#formP').html(response);
+            }
+        });
+    }
+
+    function deleteProduct() {
+        closeModal2();
+        _naziv = $('#naziv').html();
+        $.ajax({
+            url: "php/deleteProduct.php",
+            type: "POST",
+            cache: false,
+            data: {
+                nazivp: _naziv
+            },
+            success: function() {
+                window.location.reload();
             }
         });
     }

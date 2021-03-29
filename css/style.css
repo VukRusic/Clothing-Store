@@ -797,6 +797,8 @@ main .cart .buttons input:hover {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s 0s, visibility 0s 0s;
+  z-index: 9999;
+
 }
 
 .cd-popup-container {
@@ -857,4 +859,8 @@ main .cart .buttons input:hover {
   color: #fff;
   background-color: #002631;
   border-color: #002631;
+}
+
+#btnKreiraj{
+  margin-left: 50px;
 }
