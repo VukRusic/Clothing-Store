@@ -10,12 +10,12 @@ $pol = "";
 $datum = date('Y-m-d H:i:s');
 $slika = "";
 
-$naziv = $_POST['naziv'];
-$kategorija = $_POST['kategorija'];
-$podkategorija = $_POST['podkategorija'];
-$cena = $_POST['cena'];
-$statusP = $_POST['statusP'];
-$pol = $_POST['pol'];
+$naziv = $mysqli->real_escape_string($_POST['naziv']);
+$kategorija = $mysqli->real_escape_string($_POST['kategorija']);
+$podkategorija = $mysqli->real_escape_string($_POST['podkategorija']);
+$cena = $mysqli->real_escape_string($_POST['cena']);
+$statusP = $mysqli->real_escape_string($_POST['statusP']);
+$pol = $mysqli->real_escape_string($_POST['pol']);
 
 
 $source = $_FILES['upload']['tmp_name'];

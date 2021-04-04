@@ -32,8 +32,9 @@ if (!$rez = $mysqli->query($upit)) {
         $ids .= ",'" . $red["Id"] . "'";
     }
     $ids = substr($ids, 1);
+    $cancel = "Otkazano";
     if ($ids != "") {
-        $upit = "SELECT * FROM narudzbenica WHERE Id in ($ids)";
+        $upit = "SELECT * FROM narudzbenica WHERE Id in ($ids) and StatusP not like '$cancel'";
 
         if (!$rez = $mysqli->query($upit)) {
             echo "Greska: " . $mysqli->error;
@@ -69,13 +70,13 @@ $mysqli->close();
     <h1>Vaš nalog:</h1>
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <label for="Username" class="info-label">Korisničko ime:</label>
-        <input type="text" class="info-text" name="Username" value="<?php echo $ime ?>"><br><br>
+        <input type="text" class="info-text" name="Username" value="<?php echo $ime ?>" required><br><br>
         <label for="Prezime" class="info-label">Prezime:</label>
-        <input type="text" class="info-text" name="Prezime" value="<?php echo $prezime ?>"><br><br>
+        <input type="text" class="info-text" name="Prezime" value="<?php echo $prezime ?>" required><br><br>
         <label for="Email" class="info-label">Email:</label>
-        <input type="text" class="info-text" name="Email" value="<?php echo $email ?>"><br><br>
+        <input type="text" class="info-text" name="Email" value="<?php echo $email ?>" required><br><br>
         <label for="Sifra" class="info-label">Password:</label>
-        <input type="text" class="info-text" name="Sifra" value="<?php echo $sifra ?>"><br><br>
+        <input type="text" class="info-text" name="Sifra" value="<?php echo $sifra ?>" required><br><br>
         <input type="submit" name="submit" class="btn btn-primary infobtn" value="Ažuriraj podatke">
     </form>
 </div>

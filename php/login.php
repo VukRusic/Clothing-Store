@@ -1,8 +1,8 @@
 <?php
 session_start();
 include "connect.php";
-$email = $_POST['Email'];
-$password = $_POST['Password'];
+$email = $mysqli->real_escape_string($_POST['Email']);
+$password = $mysqli->real_escape_string($_POST['Password']);
 
 $upit = "SELECT * FROM nalog WHERE Email='$email' and Sifra='$password'";
 

@@ -79,13 +79,13 @@ if (!$rez = $mysqli->query($upit)) {
           <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img class="d-block w-100" src="img/carousel1.png" alt="First slide">
+                <img class="d-block w-100"  alt="First slide">
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="img/carousel2.png" alt="Second slide">
+                <img class="d-block w-100"  alt="Second slide">
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="img/carousel4.png" alt="Third slide">
+                <img class="d-block w-100"  alt="Third slide">
               </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -107,7 +107,7 @@ if (!$rez = $mysqli->query($upit)) {
               <li>
                 <a href="#"><img class="middle" src="img/<?= $proizvod[7] ?>" alt="<?= $proizvod[1] ?>" /></a>
                 <div class="product-info">
-                  <h3><?php echo $proizvod[3] ?></h3>
+                  <h3><?php echo ($proizvod[3] . "\t" . $proizvod[4] . ".00 din")?></h3>
                   <div class="product-desc">
                     <button onclick="addToCart('<?= $proizvod[1] ?>')" class="btn btn-primary">Dodaj u korpu</button>
                   </div>

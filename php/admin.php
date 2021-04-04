@@ -42,6 +42,7 @@ $mysqli->close();
                                 <option value="U pripremi">U pripremi</option>
                                 <option value="U fazi isporuke">U fazi isporuke</option>
                                 <option value="Isporučeno">Isporučeno</option>
+                                <option value="Otkazano">Otkazano</option>
                             </select><br><br>
                             <p style="visibility:hidden" id="IdEdit"></p>
                             <button type="submit" name="submit" class="btn btn-success status-btn" onclick="closeModal()" >Sačuvaj</button>
