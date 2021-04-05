@@ -9,7 +9,8 @@ $statusP = "";
 $pol = "";
 $datum = date('Y-m-d H:i:s');
 $slika = "";
-
+var_dump($_FILES);
+if($_POST['naziv'] != "" && $_POST['kategorija'] != "" && $_POST['podkategorija'] != "" && $_POST['cena'] != "" && $_POST['pol'] != ""){
 $naziv = $mysqli->real_escape_string($_POST['naziv']);
 $kategorija = $mysqli->real_escape_string($_POST['kategorija']);
 $podkategorija = $mysqli->real_escape_string($_POST['podkategorija']);
@@ -27,9 +28,12 @@ $upit = "INSERT INTO proizvod (Naziv, Kategorija, Podkategorija, Cena, StatusP, 
        ('$naziv','$kategorija','$podkategorija','$cena','$statusP','$datum','$slika','$pol')";
 
 if ($rez = $mysqli->query($upit)) {
-    header("location: ../index.php");
+    echo "Success";
 } else {
     echo "Greska";
 }
 $mysqli->close();
+} else {
+    echo "Error";
+}
 ?>

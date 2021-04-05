@@ -7,7 +7,7 @@ $upit = "DELETE FROM proizvod WHERE Naziv LIKE '$naziv'";
 if (!$rez = $mysqli->query($upit)) {
     echo "Greska: " . $mysqli->error;
 } else {
-    echo "Uspesno obrisano" . $naziv;
+    echo "Success";
 }
 
 $mysqli->close();

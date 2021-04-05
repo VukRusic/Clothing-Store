@@ -4,6 +4,7 @@ if (isset($_SESSION['username'])) {
 } else {
   $user = "";
 }
+
 ?>
 
 <div id="header">
@@ -36,7 +37,7 @@ if (isset($_SESSION['username'])) {
   <div class="popup" id="popup">
     <div class="popup-close" onclick="closeLoginForm()"><i class="fas fa-times"></i></div>
     <div class="form">
-      <form class="form" id="form">
+      <form class="form" id="formLogin">
         <div class="avatar">
           <i class="fas fa-user fa-7x"></i>
         </div>
@@ -54,7 +55,7 @@ if (isset($_SESSION['username'])) {
         </div>
       </form>
       <div class="element">
-        <button id="submit">Login</button>
+        <button id="loginBtn">Login</button>
       </div>
       <div class="element">
         Nemate nalog?
@@ -69,7 +70,7 @@ if (isset($_SESSION['username'])) {
     $(document).ready(function() {
       <?php
       if (isset($_SESSION['username'])) { ?>
-        $('#quantity').html(<?php echo $_SESSION['quantity'] ?>)
+        updateQuantity();
       <?php } else { ?>
         $('#signOut').css("display", "none");
       <?php } ?>
@@ -87,6 +88,17 @@ if (isset($_SESSION['username'])) {
     function closeLoginForm() {
       document.body.classList.remove("showLoginForm");
     };
+
+    function updateQuantity(){
+      $.ajax({
+        type: 'get',
+        url: 'php/getQuantity.php',
+        cache: false,
+        success: function(quantity) {
+          $('#quantity').html(quantity);
+        }
+      });
+    }
 
     function showUser() {
       closeLoginForm();
@@ -133,8 +145,8 @@ if (isset($_SESSION['username'])) {
       });
     }
 
-    $('#submit').click(function() {
-      var form = $('#form').serialize();
+    $('#loginBtn').click(function() {
+      var form = $('#formLogin').serialize();
       $.ajax({
         url: "php/login.php",
         type: "POST",
@@ -170,8 +182,10 @@ if (isset($_SESSION['username'])) {
         type: 'get',
         url: 'php/showCart.php',
         success: function(data) {
+          updateQuantity();
           $('#main').html(data);
           $('#pocetna').removeClass("active");
+          
         }
       });
     }

@@ -21,7 +21,7 @@ if (!$rez = $mysqli->query($upit)) {
 }
 
 ?>
-<div class="col-md-2">
+<div id="accounts" class="col-md-2">
     <h2 style="font-weight: bold;">Registrovani nalozi:</h2>
     <table class="accounts">
         <thead>
@@ -53,7 +53,7 @@ if (!$rez = $mysqli->query($upit)) {
         </tbody>
     </table>
 </div>
-<div class="col-md-6" id="proizvods">
+<div class="col-md-6" id="products">
     <h1>Objavljeni proizvodi:</h1>
     <table class="products-list">
         <thead>
@@ -90,11 +90,11 @@ if (!$rez = $mysqli->query($upit)) {
                         <div class="cd-popup-container admin-popup">
                             <p id="naziv" style="display: none;"></p>
                             <div id="popup2-tekst" style="display: none;">
-                            <p class="pop-tekst2">Da li sigurno želite da obrišete izabrani proizvod?</p>
-                            <button type="submit" name="submit" class="btn btn-success status-btn" onclick="deleteProduct()">Da</button>
-                            <button type="submit" name="submit" class="btn btn-danger status-btn" onclick="closeModal2()">Ne</button>
+                                <p class="pop-tekst2">Da li sigurno želite da obrišete izabrani proizvod?</p>
+                                <button type="submit" name="submit" class="btn btn-success status-btn" onclick="deleteProduct()">Da</button>
+                                <button type="submit" name="submit" class="btn btn-danger status-btn" onclick="closeModal2()">Ne</button>
                             </div>
-                            <div id="formP">
+                            <div id="formUpdateProduct">
 
                             </div>
                         </div>
@@ -106,23 +106,23 @@ if (!$rez = $mysqli->query($upit)) {
 </div>
 <div class="col-md-4">
     <h1>Kreiranje novog proizvoda:</h1>
-    <form id="form3" enctype="multipart/form-data" method="post" action="php/createProduct.php">
-    <label class="info-label">Naziv: </label>
-    <input class="info-text" name="naziv" size="15" required><br><br>
-    <label class="info-label">Kategorija: </label>
-    <input class="info-text" name="kategorija" size="15" required><br><br>
-    <label class="info-label">Podkategorija: </label>
-    <input class="info-text" name="podkategorija" size="15" required><br><br>
-    <label class="info-label">Cena: </label>
-    <input class="info-text" name="cena" size="15" required><br><br>
-    <label class="info-label">Pol: </label>
-    <input class="info-text" name="pol" size="15" required><br><br>
-    <label class="info-label">Status: </label>
-    <input class="info-text" name="statusP" size="15" required><br><br>
-    <label class="info-label">Izaberi sliku: </label>
-    <input type="file" name="upload"><br><br>
-    <input type="submit" value="Kreiraj" class="btn btn-success" id="btnKreiraj">
-</form>
+    <form id="formCreate" enctype="multipart/form-data" method="post">
+        <label class="info-label">Naziv: </label>
+        <input class="info-text" name="naziv" size="15" required><br><br>
+        <label class="info-label">Kategorija: </label>
+        <input class="info-text" name="kategorija" size="15" required><br><br>
+        <label class="info-label">Podkategorija: </label>
+        <input class="info-text" name="podkategorija" size="15" required><br><br>
+        <label class="info-label">Cena: </label>
+        <input class="info-text" name="cena" size="15" required><br><br>
+        <label class="info-label">Pol: </label>
+        <input class="info-text" name="pol" size="15" required><br><br>
+        <label class="info-label">Status: </label>
+        <input class="info-text" name="statusP" size="15" required><br><br>
+        <label class="info-label">Izaberi sliku: </label>
+        <input type="file" name="upload"><br><br>
+    </form>
+    <button onclick="createProduct()" class="btn btn-success" id="btnKreiraj">Kreiraj</button>
 </div>
 
 <script>
@@ -146,14 +146,14 @@ if (!$rez = $mysqli->query($upit)) {
                 ime: _ime,
             },
             success: function() {
-                window.location.reload();
+                showCustomize();
             }
         });
     }
 
-    function openModal1(_status, _cena,_naziv) {
+    function openModal1(_status, _cena, _naziv) {
         $('#pop1').addClass('is-visible');
-        updateProduct(_status, _cena,_naziv);
+        updateProduct(_status, _cena, _naziv);
     }
 
     function closeModal1() {
@@ -162,7 +162,7 @@ if (!$rez = $mysqli->query($upit)) {
 
     function openModal2(_naziv) {
         $('#pop1').addClass('is-visible');
-        $('#popup2-tekst').css("display","block");
+        $('#popup2-tekst').css("display", "block");
         $('#naziv').html(_naziv);
     }
 
@@ -171,20 +171,17 @@ if (!$rez = $mysqli->query($upit)) {
     }
 
     function updateProduct(_status, _cena, _naziv) {
-        status = _status;
-        cena = _cena;
-        naziv = _naziv;
         $.ajax({
             url: "php/updateProduct.php",
             type: "POST",
             cache: false,
             data: {
-                statusp: status,
-                cenap: cena,
-                nazivp: naziv
+                statusp: _status,
+                cenap: _cena,
+                nazivp: _naziv
             },
             success: function(response) {
-                $('#formP').html(response);
+                $('#formUpdateProduct').html(response);
             }
         });
     }
@@ -199,8 +196,30 @@ if (!$rez = $mysqli->query($upit)) {
             data: {
                 nazivp: _naziv
             },
-            success: function() {
-                window.location.reload();
+            success: function(response) {
+                if (response == "Success") {
+                    showCustomize();
+                }
+            }
+        });
+    }
+    
+    function createProduct() {
+        var data = new FormData(document.getElementById('formCreate'));
+        $.ajax({
+            url: "php/createProduct.php",
+            enctype: 'multipart/form-data',
+            method: "POST",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response == "Success") {
+                    showCustomize();
+                    $("#formCreate")[0].reset();
+                } else {
+                    $("#formCreate")[0].reset();
+                }
             }
         });
     }

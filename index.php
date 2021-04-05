@@ -29,7 +29,7 @@ if (!$rez = $mysqli->query($upit)) {
 
 <body>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" id="nav">
       <?php include "php/nav.php"; ?>
     </div>
     <!-- Main -->
@@ -75,7 +75,7 @@ if (!$rez = $mysqli->query($upit)) {
       </div>
       <div id="content" class="col-md-9">
         <!-- Content Slider -->
-        <div id="slider" class="box">
+        <!-- <div id="slider" class="box">
           <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -97,7 +97,7 @@ if (!$rez = $mysqli->query($upit)) {
               <span class="sr-only">Next</span>
             </a>
           </div>
-        </div>
+        </div> -->
         <!-- End Content Slider -->
         <!-- Products -->
         <div class="products">

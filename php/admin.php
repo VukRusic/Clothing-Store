@@ -54,7 +54,7 @@ $mysqli->close();
                         <td><?= $porudzbina[3] ?></td>
                         <td><?= $porudzbina[2] ?>.00 din</td>
                         <td><?= $porudzbina[5] ?></td>
-                        <td><a onclick="editStatus('<?= $porudzbina[0] ?>','<?=$porudzbina[5]?>')"><i class="fas fa-edit fa-2x"></i></a></td>
+                        <td><a onclick="updateOrderStatus('<?= $porudzbina[0] ?>','<?=$porudzbina[5]?>')"><i class="fas fa-edit fa-2x"></i></a></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -62,10 +62,9 @@ $mysqli->close();
     </table>
 </div>
 <script>
-    function editStatus(_id, _status) {
+    function updateOrderStatus(_id, _status) {
         $('#pop').addClass('is-visible');
         $('#statusi').val(_status);
-        console.log(_id);
 
         $.ajax({
             type: 'POST',
@@ -83,14 +82,14 @@ $mysqli->close();
         $('#pop').removeClass('is-visible');
         _id = $('#IdEdit').html();
         _newStatus = $('#statusi').val();
-        console.log(_id + _newStatus);
+
         $.ajax({
             type: 'POST',
-            url: 'php/updateStatus.php',
+            url: 'php/changeOrderStatus.php',
             cache: false,
             data: {id:_id, newStatus: _newStatus},
-            success: function(data) {
-                window.location.reload();
+            success: function() {
+                showAdmin();
             }
         });
     }
