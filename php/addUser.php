@@ -16,13 +16,13 @@ if($_POST['Ime'] != "" && $_POST['Prezime'] != "" && $_POST['Password1'] != "" &
       $upit = "INSERT INTO nalog (Ime, Prezime, Email, Sifra, Tip) VALUES
        ('$ime','$prezime','$email','$password','$tip')";
       if ($rez = $mysqli->query($upit)) {
-        echo "Uspesna registracija";
+        echo "Success";
       }
       else {
         echo "Greska";
       }
       $mysqli->close();
-    } else {
-      echo "Error";
-    }
+} else {
+  echo "Error";
+}
 ?>

@@ -341,6 +341,7 @@ a.bul {
 .categories ul li {
   border-bottom: dashed 1px #ccc;
   padding: 5px 0;
+  font-size: 17px;
 }
 .categories ul li.last {
   border-bottom: 0;
@@ -356,6 +357,7 @@ a.bul {
 }
 #subcategorie {
   border-bottom: 0;
+  padding: 13px;
 }
 #showcategorie1 {
   display: none;
@@ -637,8 +639,8 @@ body.showLoginForm .popup {
   padding: 8% 0 0;
   margin: auto;
 }
-.form1 {
-  position: relative;
+.formRegister {
+position: relative;
   z-index: 1;
   background: #ffffff;
   max-width: 360px;
@@ -647,8 +649,8 @@ body.showLoginForm .popup {
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.form1 input {
-  font-family: "Trebuchet MS", Arial, sans-serif;
+.formRegister input {
+font-family: "Trebuchet MS", Arial, sans-serif;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -658,7 +660,7 @@ body.showLoginForm .popup {
   box-sizing: border-box;
   font-size: 14px;
 }
-.form1 button {
+.formRegister button {
   font-family: "Trebuchet MS", Arial, sans-serif;
   text-transform: uppercase;
   outline: 0;
@@ -672,9 +674,9 @@ body.showLoginForm .popup {
   transition: all 0.3 ease;
   cursor: pointer;
 }
-.form1 button:hover,
-.form1 button:active,
-.form1 button:focus {
+.formRegister button:hover,
+.formRegister button:active,
+.formRegister button:focus {
   background: #046582;
 }
 

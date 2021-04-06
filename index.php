@@ -43,29 +43,35 @@ if (!$rez = $mysqli->query($upit)) {
             <form id="searchForm" method="post">
               <label>Nazivu</label>
               <input type="text" class="field" name="Naziv" />
-              </br></br>
-              <input type="button" id="search" class="search-submit" value="Pretraga" />
+              </br>
+              <input type="button" id="search" class="search-submit" value="Pretraži" />
             </form>
           </div>
         </div>
         <!-- End Search -->
         <!-- Categories -->
         <div class="box categories">
-          <h2>Kategorije <span></span></h2>
+          <h2>Kategorije</h2>
           <div>
             <ul>
-              <li><a onclick="show1()"><i class="fas fa-plus-circle"></i></a>
+              <li>
+              <div>
+                <a onclick="show1()"><i class="fas fa-plus-circle"></i></a>
                 <a onclick="searchCategorie('Odrasli')">Odrasli</a>
+              </div>
                 <ul id="showcategorie1">
-                  <li id="subcategorie" onclick="searchCategorie('Odrasli','M')"><a>Muškarci</a></li>
-                  <li id="subcategorie" onclick="searchCategorie('Odrasli','Z')"><a>Žene</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Odrasli','M')"><i class="fas fa-angle-right"></i><a>Muškarci</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Odrasli','Z')"><i class="fas fa-angle-right"></i><a>Žene</a></li>
                 </ul>
               </li>
-              <li><a onclick="show2()"><i class="fas fa-plus-circle"></i></a>
+              <li>
+              <div>
+                <a onclick="show2()"><i class="fas fa-plus-circle"></i></a>
                 <a onclick="searchCategorie('Deca')"> Deca</a>
+              </div>
                 <ul id="showcategorie2">
-                  <li id="subcategorie" onclick="searchCategorie('Deca','M')"> <a>Dečaci</a></li>
-                  <li id="subcategorie" onclick="searchCategorie('Deca','Z')"> <a>Devojčice</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Deca','M')"><i class="fas fa-angle-right"></i> <a>Dečaci</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Deca','Z')"><i class="fas fa-angle-right"></i> <a>Devojčice</a></li>
                 </ul>
               </li>
             </ul>

@@ -45,30 +45,31 @@ if (!$rez = $mysqli->query($upit)) {
 }
 
 
-if (isset($_POST['submit'])) {
+// if (isset($_POST['submit'])) {
 
-    $ime = $_POST['Username'];
-    $prezime = $_POST['Prezime'];
-    $email = $_POST['Email'];
-    $sifra = $_POST['Sifra'];
+//     $ime = $_POST['Username'];
+//     $prezime = $_POST['Prezime'];
+//     $email = $_POST['Email'];
+//     $sifra = $_POST['Sifra'];
 
-    $upit = "UPDATE nalog set Ime='$ime', Prezime='$prezime', Email='$email', Sifra='$sifra'
-    WHERE Id LIKE '$id'";
+//     $upit = "UPDATE nalog set Ime='$ime', Prezime='$prezime', Email='$email', Sifra='$sifra'
+//     WHERE Id LIKE '$id'";
 
-    if (!$rez = $mysqli->query($upit)) {
-        echo "Greska: " . $mysqli->error;
-    } else {
-        $_SESSION['username'] = $ime;
-        header("location: ../index.php");
-    }
-}
+//     if (!$rez = $mysqli->query($upit)) {
+//         echo "Greska: " . $mysqli->error;
+//     } else {
+//         $_SESSION['username'] = $ime;
+//         header("location: ../index.php");
+//     }
+// }
 
 $mysqli->close();
 ?>
 
 <div class="col-md-4">
     <h1>Vaš nalog:</h1>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <form method="POST" id="formUpdateUser">
+        <input type="hidden" name="Id" value="<?php echo $id ?>">
         <label for="Username" class="info-label">Korisničko ime:</label>
         <input type="text" class="info-text" name="Username" value="<?php echo $ime ?>" required><br><br>
         <label for="Prezime" class="info-label">Prezime:</label>
@@ -77,8 +78,8 @@ $mysqli->close();
         <input type="text" class="info-text" name="Email" value="<?php echo $email ?>" required><br><br>
         <label for="Sifra" class="info-label">Password:</label>
         <input type="text" class="info-text" name="Sifra" value="<?php echo $sifra ?>" required><br><br>
-        <input type="submit" name="submit" class="btn btn-primary infobtn" value="Ažuriraj podatke">
     </form>
+    <button onclick="updateUser()" class="btn btn-primary infobtn">Ažuriraj podatke</button>
 </div>
 <div class="col-md-8">
     <h1>Informacije o vašim porudžbinama:</h1>
@@ -111,3 +112,18 @@ $mysqli->close();
         </tbody>
     </table>
 </div>
+<script>
+    function updateUser() {
+        var form = $('#formUpdateUser').serialize();
+        $.ajax({
+            url: "php/updateUser.php",
+            method: "POST",
+            data: form,
+            success: function(response) {
+                if (response == "Success") {
+                    showUser();
+                } 
+            }
+        });
+    }
+</script>

@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 <div class="login-page">
-    <div class="form1">
+    <div class="formRegister">
         <form class="register-form" id="form2" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <label>Unesite adresu</label>
             <input type="text" placeholder="Adresa" name="adresa" required />

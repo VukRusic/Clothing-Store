@@ -22,7 +22,7 @@ $naziv = $_POST['nazivp'];
         data: form,
         success: function(response) {
           if(response == "Success"){
-            showCustomize();
+            showPageAjax('customize');
           }
         }
       });

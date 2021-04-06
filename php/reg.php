@@ -1,6 +1,6 @@
 <div class="login-page">
   <div class="formRegister">
-    <form class="register-form" id="form1" method="post">
+    <form class="register-form" id="formRegister" method="post">
       <input type="text" placeholder="Ime" name="Ime" required/>
       <input type="text" placeholder="Prezime" name="Prezime" required/>
       <input type="password" placeholder="Sifra" name="Password1" required/>
@@ -16,10 +16,10 @@
         method: "POST",
         data: form,
         success: function(response) {
-          if(response == "Error"){
-            alert("Niste popunili sva polja");
-          } else {
+          if(response == "Success"){
             window.location.reload();
+          } else {
+            alert("Niste popunili sva polja");
           }
         }
       });

@@ -89,7 +89,7 @@ $mysqli->close();
             cache: false,
             data: {id:_id, newStatus: _newStatus},
             success: function() {
-                showAdmin();
+                showPageAjax('admin');
             }
         });
     }

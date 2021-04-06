@@ -113,7 +113,7 @@ if ($products_in_cart) {
             data: form,
             success: function(response) {
                 if (response == "Success") {
-                    showCart();
+                    showPageAjax('showCart');
                 }
             }
         });
@@ -128,7 +128,7 @@ if ($products_in_cart) {
             url: 'php/removeFromCart.php',
             cache: false,
             success: function(response) {
-                showCart();
+                showPageAjax('showCart');
             }
         });
     }

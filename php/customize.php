@@ -146,7 +146,7 @@ if (!$rez = $mysqli->query($upit)) {
                 ime: _ime,
             },
             success: function() {
-                showCustomize();
+                showPageAjax('customize');
             }
         });
     }
@@ -198,7 +198,7 @@ if (!$rez = $mysqli->query($upit)) {
             },
             success: function(response) {
                 if (response == "Success") {
-                    showCustomize();
+                    showPageAjax('customize');
                 }
             }
         });
@@ -215,7 +215,7 @@ if (!$rez = $mysqli->query($upit)) {
             processData: false,
             success: function(response) {
                 if (response == "Success") {
-                    showCustomize();
+                    showPageAjax('customize');
                     $("#formCreate")[0].reset();
                 } else {
                     $("#formCreate")[0].reset();

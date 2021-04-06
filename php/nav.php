@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
 <div id="header">
   <h1 id="logo"><a href="#"><img src="img/logo.jpg"></a></h1>
   <!-- Cart -->
-  <div id="cart"><a onclick="showCart()"><i class="fas fa-shopping-cart fa-2x"></i> Vaša korpa</a>
+  <div id="cart"><a id="showCart" onclick="showPageAjax('showCart')"><i class="fas fa-shopping-cart fa-2x"></i> Vaša korpa</a>
     <div class="cl">&nbsp;</div>
     <span>Broj artikala: <strong><span id="quantity">0</span></strong></span> &nbsp;&nbsp;
   </div>
@@ -18,15 +18,15 @@ if (isset($_SESSION['username'])) {
   <!-- Navigation -->
   <div id="navigation">
     <ul>
-      <li><a href="index.php" id="pocetna" class="active">Početna</a></li>
-      <li><a href="#" id="usluge">Usluge</a></li>
+      <li><a href="index.php" id="pocetna" class="navItem">Početna</a></li>
+      <li><a id="services" class="navItem" onclick="showPageAjax('services')">Usluge</a></li>
       <?php if ($user == "admin") { ?>
-        <li><a id="porudzbine" onclick="showAdmin()">Porudžbine</a></li>
-        <li><a id="editovanje" onclick="showCustomize()">Editovanje</a></li> 
-        <?php } else { ?>
-        <li><a id="nalog" onclick="openLoginForm()">Moj nalog</a></li>
+        <li><a id="admin" class="navItem" onclick="showPageAjax('admin')">Porudžbine</a></li>
+        <li><a id="customize" class="navItem" onclick="showPageAjax('customize')">Editovanje</a></li>
+      <?php } else { ?>
+        <li><a id="user" class="navItem" onclick="openLoginForm()">Moj nalog</a></li>
       <?php } ?>
-      <li><a href="#" id="kontakt">Kontakt</a></li>
+      <li><a id="kontakt" class="navItem">Kontakt</a></li>
       <li>
         <a id="signOut" href="php/logOut.php">Log out <i class="fas fa-sign-out-alt"></i></a>
       </li>
@@ -59,7 +59,7 @@ if (isset($_SESSION['username'])) {
       </div>
       <div class="element">
         Nemate nalog?
-        <button onclick="openRegistration()">Registruj se</button>
+        <button onclick="showPageAjax('reg')">Registruj se</button>
       </div>
     </div>
   </div>
@@ -68,6 +68,7 @@ if (isset($_SESSION['username'])) {
 
   <script>
     $(document).ready(function() {
+      $('#pocetna').addClass('active');
       <?php
       if (isset($_SESSION['username'])) { ?>
         updateQuantity();
@@ -79,7 +80,7 @@ if (isset($_SESSION['username'])) {
     function openLoginForm() {
       <?php
       if (isset($_SESSION['username'])) { ?>
-        showUser();
+        showPageAjax('user');
       <?php } else { ?>
         document.body.classList.add("showLoginForm");
       <?php } ?>
@@ -89,58 +90,13 @@ if (isset($_SESSION['username'])) {
       document.body.classList.remove("showLoginForm");
     };
 
-    function updateQuantity(){
+    function updateQuantity() {
       $.ajax({
         type: 'get',
         url: 'php/getQuantity.php',
         cache: false,
         success: function(quantity) {
           $('#quantity').html(quantity);
-        }
-      });
-    }
-
-    function showUser() {
-      closeLoginForm();
-      $.ajax({
-        type: 'get',
-        url: 'php/user.php',
-        cache: false,
-        success: function(data) {
-          $('#main').html(data);
-          $('#pocetna').removeClass("active");
-          $('#nalog').addClass("active");
-          $('#signOut').css("display", "block");
-        }
-      });
-    };
-
-    function showAdmin() {
-      closeLoginForm();
-      $.ajax({
-        type: 'get',
-        url: 'php/admin.php',
-        cache: false,
-        success: function(data) {
-          $('#main').html(data);
-          $('#pocetna').removeClass("active");
-          $('#editovanje').removeClass("active");
-          $('#porudzbine').addClass("active");
-          $('#signOut').css("display", "block");
-        }
-      });
-    }
-
-    function showCustomize() {
-      $.ajax({
-        type: 'get',
-        url: 'php/customize.php',
-        cache: false,
-        success: function(data) {
-          $('#main').html(data);
-          $('#pocetna').removeClass("active");
-          $('#porudzbine').removeClass("active");
-          $('#editovanje').addClass("active");
         }
       });
     }
@@ -154,9 +110,9 @@ if (isset($_SESSION['username'])) {
         data: form,
         success: function(response) {
           if (response == "success") {
-            window.location.reload(); 
-          } else if(response == "admin") {
-            window.location.reload(); 
+            window.location.reload();
+          } else if (response == "admin") {
+            window.location.reload();
           } else {
             $('#poruka').html(response);
           }
@@ -164,28 +120,25 @@ if (isset($_SESSION['username'])) {
       });
     });
 
-    function openRegistration() {
-      closeLoginForm();
+    function showPageAjax(page) {
       $.ajax({
         type: 'get',
-        url: 'php/reg.php',
+        url: 'php/' + page + '.php',
         success: function(data) {
           $('#main').html(data);
-          $('#pocetna').removeClass("active");
-          $('#nalog').addClass("active");
-        }
-      });
-    }
-
-    function showCart() {
-      $.ajax({
-        type: 'get',
-        url: 'php/showCart.php',
-        success: function(data) {
-          updateQuantity();
-          $('#main').html(data);
-          $('#pocetna').removeClass("active");
-          
+          if(page == 'showCart'){
+            updateQuantity();
+          }
+          navItems = document.querySelectorAll('.navItem');
+          navItems.forEach(function(item) {
+            item.classList.remove("active")
+          })
+          if(page == "reg"){
+            closeLoginForm();
+            $('#user').addClass('active');
+          } else {
+          $('#' + page).addClass('active');
+          }
         }
       });
     }
