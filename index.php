@@ -42,9 +42,9 @@ if (!$rez = $mysqli->query($upit)) {
           <div class="box-content">
             <form id="searchForm" method="post">
               <label>Nazivu</label>
-              <input type="text" class="field" name="Naziv" />
+              <input type="text" id="poNazivu" class="form-control" name="Naziv" />
               </br>
-              <input type="button" id="search" class="search-submit" value="Pretraži" />
+              <input type="button" id="search" class="btn btn-primary" value="Pretraži" />
             </form>
           </div>
         </div>
@@ -81,30 +81,6 @@ if (!$rez = $mysqli->query($upit)) {
       </div>
       <div id="content" class="col-md-9">
         <!-- Content Slider -->
-        <!-- <div id="slider" class="box">
-          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100"  alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100"  alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100"  alt="Third slide">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div> -->
-        <!-- End Content Slider -->
         <!-- Products -->
         <div class="products">
           <div class="cl">&nbsp;</div>

@@ -44,25 +44,6 @@ if (!$rez = $mysqli->query($upit)) {
     }
 }
 
-
-// if (isset($_POST['submit'])) {
-
-//     $ime = $_POST['Username'];
-//     $prezime = $_POST['Prezime'];
-//     $email = $_POST['Email'];
-//     $sifra = $_POST['Sifra'];
-
-//     $upit = "UPDATE nalog set Ime='$ime', Prezime='$prezime', Email='$email', Sifra='$sifra'
-//     WHERE Id LIKE '$id'";
-
-//     if (!$rez = $mysqli->query($upit)) {
-//         echo "Greska: " . $mysqli->error;
-//     } else {
-//         $_SESSION['username'] = $ime;
-//         header("location: ../index.php");
-//     }
-// }
-
 $mysqli->close();
 ?>
 
@@ -110,7 +91,10 @@ $mysqli->close();
                 <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
-    </table>
+    </table><br><br>
+    <div class="alert alert-warning">
+        Ukoliko zelite da promenite porudžbinu ili otkažete, <a id="order-info" onclick="showPageAjax('contact')">kontaktirajte nas</a>.
+    </div>
 </div>
 <script>
     function updateUser() {
@@ -121,8 +105,8 @@ $mysqli->close();
             data: form,
             success: function(response) {
                 if (response == "Success") {
-                    showUser();
-                } 
+                    showPageAjax('user');
+                }
             }
         });
     }

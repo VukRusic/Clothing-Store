@@ -7,7 +7,7 @@ $telefon = "";
 $cena = 0;
 $vreme = "";
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']) && $_POST['adresa'] != "" && $_POST['telefon'] != "") {
     $adresa = $mysqli->real_escape_string($_POST['adresa']);
     $telefon = $mysqli->real_escape_string($_POST['telefon']);
     $cena = $_SESSION['subtotal'];

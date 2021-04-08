@@ -84,6 +84,10 @@ h4 {
   color: #000;
 }
 
+#exitLogin{
+  padding-top: 5px;
+}
+
 h1#logo {
   font-size: 0;
   line-height: 0;
@@ -104,6 +108,10 @@ h1 img {
 .main {
   width: auto;
   height: auto;
+}
+
+#poNazivu{
+  width: auto;
 }
 
 #header {
@@ -242,6 +250,11 @@ h1 img {
 
 .infobtn {
   margin-left: 20px;
+}
+
+#order-info {
+  font-weight: bold;
+  text-decoration: underline ;
 }
 
 .info-text {
@@ -688,6 +701,10 @@ main {
   margin: auto;
 }
 
+#main{
+  min-height: 900px;
+}
+
 main .cart h1 {
   display: block;
   font-weight: normal;
@@ -865,4 +882,48 @@ main .cart .buttons input:hover {
 
 #btnKreiraj{
   margin-left: 50px;
+}
+
+#service {
+  text-align: center;
+}
+
+#searchForm{
+  font-size: 17px;
+}
+
+ul {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  list-style-position: inside;
+}
+
+.services-list {
+  font-size: 15px;
+}
+
+.services-list li {
+  margin: 15px;
+}
+
+.jumbotron{
+  margin: auto;
+  width: 500px;
+}
+
+#contact {
+  width: 800px;
+  padding-bottom: 60px;
+}
+
+.contact-info {
+  font-size: 17px;
+}
+
+.lead {
+  padding-top: 25px;
+}
+
+.alert-warning{
+  width: 650px;
 }

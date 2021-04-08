@@ -26,7 +26,7 @@ if (isset($_SESSION['username'])) {
       <?php } else { ?>
         <li><a id="user" class="navItem" onclick="openLoginForm()">Moj nalog</a></li>
       <?php } ?>
-      <li><a id="kontakt" class="navItem">Kontakt</a></li>
+      <li><a id="kontakt" class="navItem" onclick="showPageAjax('contact')">Kontakt</a></li>
       <li>
         <a id="signOut" href="php/logOut.php">Log out <i class="fas fa-sign-out-alt"></i></a>
       </li>
@@ -35,7 +35,7 @@ if (isset($_SESSION['username'])) {
 
   <div class="popup-overlay"></div>
   <div class="popup" id="popup">
-    <div class="popup-close" onclick="closeLoginForm()"><i class="fas fa-times"></i></div>
+    <div class="popup-close" onclick="closeLoginForm()"><i id="exitLogin" class="fas fa-times"></i></div>
     <div class="form">
       <form class="form" id="formLogin">
         <div class="avatar">
