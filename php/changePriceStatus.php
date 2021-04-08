@@ -7,7 +7,7 @@ $upit = "UPDATE proizvod SET StatusP='$newStatus', Cena='$newCena' WHERE Naziv L
 if (!$rez = $mysqli->query($upit)) {
     echo "Greska: " . $mysqli->error;
 } else {
-    header("location: ../index.php");
+    echo "Success";
 }
 
 $mysqli->close();

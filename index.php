@@ -1,5 +1,17 @@
 <?php
 session_start();
+include "php/connect.php";
+
+$proizvods = null;
+
+$statusP = "sale";
+$upit = "SELECT * FROM proizvod WHERE statusP='$statusP'";
+if (!$rez = $mysqli->query($upit)) {
+  echo "Greska: " . $mysqli->error;
+} else {
+  $proizvods = $rez->fetch_all();
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -8,6 +20,7 @@ session_start();
 <head>
   <title>Elpida</title>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://kit.fontawesome.com/b38f355859.js" crossorigin="anonymous"></script>
@@ -16,7 +29,7 @@ session_start();
 
 <body>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" id="nav">
       <?php include "php/nav.php"; ?>
     </div>
     <!-- Main -->
@@ -29,34 +42,36 @@ session_start();
           <div class="box-content">
             <form id="searchForm" method="post">
               <label>Nazivu</label>
-              <input type="text" class="field" name="Naziv" />
-              <label>Kategoriji</label>
-              <select class="field">
-                <option value="">-- Izaberi kategoriju --</option>
-              </select>
-              </br></br>
-              <input type="button" id="search" class="search-submit" value="Pretraga" />
+              <input type="text" id="poNazivu" class="form-control" name="Naziv" />
+              </br>
+              <input type="button" id="search" class="btn btn-primary" value="Pretraži" />
             </form>
           </div>
         </div>
         <!-- End Search -->
         <!-- Categories -->
         <div class="box categories">
-          <h2>Kategorije <span></span></h2>
+          <h2>Kategorije</h2>
           <div>
             <ul>
-              <li><a onclick="show1()"><i class="fas fa-plus-circle"></i></a>
+              <li>
+              <div>
+                <a onclick="show1()"><i class="fas fa-plus-circle"></i></a>
                 <a onclick="searchCategorie('Odrasli')">Odrasli</a>
+              </div>
                 <ul id="showcategorie1">
-                  <li id="subcategorie" onclick="searchCategorie('Odrasli','M')"><a>Muškarci</a></li>
-                  <li id="subcategorie" onclick="searchCategorie('Odrasli','Z')"><a>Žene</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Odrasli','M')"><i class="fas fa-angle-right"></i><a>Muškarci</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Odrasli','Z')"><i class="fas fa-angle-right"></i><a>Žene</a></li>
                 </ul>
               </li>
-              <li><a onclick="show2()"><i class="fas fa-plus-circle"></i></a>
+              <li>
+              <div>
+                <a onclick="show2()"><i class="fas fa-plus-circle"></i></a>
                 <a onclick="searchCategorie('Deca')"> Deca</a>
+              </div>
                 <ul id="showcategorie2">
-                  <li id="subcategorie" onclick="searchCategorie('Deca','M')"><a>Dečaci</a></li>
-                  <li id="subcategorie" onclick="searchCategorie('Deca','Z')"><a>Devojčice</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Deca','M')"><i class="fas fa-angle-right"></i> <a>Dečaci</a></li>
+                  <li id="subcategorie" onclick="searchCategorie('Deca','Z')"><i class="fas fa-angle-right"></i> <a>Devojčice</a></li>
                 </ul>
               </li>
             </ul>
@@ -66,58 +81,21 @@ session_start();
       </div>
       <div id="content" class="col-md-9">
         <!-- Content Slider -->
-        <div id="slider" class="box">
-          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100" src="img/carousel1.png" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="img/carousel2.png" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="img/carousel4.png" alt="Third slide">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-        <!-- End Content Slider -->
         <!-- Products -->
         <div class="products">
           <div class="cl">&nbsp;</div>
           <ul>
-            <li> <a href="#"><img src="img/super.jpg" alt="super" /></a>
-              <div class="product-info">
-                <h3>Duks</h3>
-                <div class="product-desc">
-                  <button onclick="addToCart('super')" class="btn btn-primary">Dodaj u korpu</button>
+            <?php foreach ($proizvods as $proizvod) : ?>
+              <li>
+                <a href="#"><img class="middle" src="img/<?= $proizvod[7] ?>" alt="<?= $proizvod[1] ?>" /></a>
+                <div class="product-info">
+                  <h3><?php echo ($proizvod[3] . "\t" . $proizvod[4] . ".00 din")?></h3>
+                  <div class="product-desc">
+                    <button onclick="addToCart('<?= $proizvod[1] ?>')" class="btn btn-primary">Dodaj u korpu</button>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li> <a href="#"><img class="middle" src="img/dog.jpg" alt="super" /></a>
-              <div class="product-info">
-                <h3>Majica</h3>
-                <div class="product-desc">
-                  <button onclick="addToCart('snupi')" class="btn btn-primary">Dodaj u korpu</button>
-                </div>
-              </div>
-            </li>
-            <li> <a href="#" class="last"><img src="img/snupi.jpg" alt="super" /></a>
-              <div class="product-info">
-                <h3>Duks</h3>
-                <div class="product-desc">
-                  <button onclick="addToCart('snupi')" class="btn btn-primary">Dodaj u korpu</button>
-                </div>
-              </div>
-            </li>
+              </li>
+            <?php endforeach; ?>
           </ul>
           <div class="cl">&nbsp;</div>
         </div>

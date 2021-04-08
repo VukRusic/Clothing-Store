@@ -57,7 +57,7 @@ if (!isset($_POST['kategorija'])) {
                             <?= $product[3] ?>: "<?= $product[1] ?>"<br><br>
                             Cena: <?= $product[4] ?>.00 Din<br><br>
                         </span>
-                        <button class="btn btn-primary" onclick="addToCart2('<?= $product[1] ?>')">
+                        <button class="btn btn-primary" onclick="addToCart('<?= $product[1] ?>')">
                             Dodaj u korpu
                         </button>
                     </div>
@@ -79,7 +79,7 @@ if (!isset($_POST['kategorija'])) {
                             <?= $product[3] ?>: "<?= $product[1] ?>"<br><br>
                             Cena: <?= $product[4] ?>.00 Din<br><br>
                         </span>
-                        <button class="btn btn-primary" onclick="addToCart2('<?= $product[1] ?>')">
+                        <button class="btn btn-primary" onclick="addToCart('<?= $product[1] ?>')">
                             Dodaj u korpu
                         </button>
                     </div>
@@ -89,7 +89,7 @@ if (!isset($_POST['kategorija'])) {
     </div>
 </div>
 <script>
-    function addToCart2(_name) {
+    function addToCart(_name) {
       var name = _name;
       $.ajax({
         url: "php/addToCart.php",
@@ -100,7 +100,7 @@ if (!isset($_POST['kategorija'])) {
           if(response == "error") {
             openLoginForm();
           } else {
-          $('#quantity').html(response);
+            $('#quantity').html(response);
           }
         },
       });

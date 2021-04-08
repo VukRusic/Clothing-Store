@@ -26,23 +26,6 @@ if ($products_in_cart) {
     }
 }
 
-if (isset($_POST['update']) && isset($_SESSION['cart'])) {
-
-    foreach ($_POST as $k => $v) {
-        if (strpos($k, 'quantity') !== false && is_numeric($v)) {
-            $qname = str_replace('quantity-', '', $k);
-            $quantity = (int)$v;
-
-            if (isset($_SESSION['cart'][$qname]) && $quantity > 0) {
-                $_SESSION['quantity'] = $_SESSION['quantity'] - $_SESSION['cart'][$qname] + $quantity;
-                $_SESSION['cart'][$qname] = $quantity;
-            }
-        }
-
-        header("location:../index.php");
-    }
-}
-
 ?>
 <main id="main-cart">
     <div class="cd-popup" id="pop" role="alert">
@@ -50,11 +33,11 @@ if (isset($_POST['update']) && isset($_SESSION['cart'])) {
             <p class="pop-tekst">Da li sigurno zelite da poručite izabrane prozvode?</p>
             <button class="btn btn-success" onclick="order()">Da</button>
             <button class="btn btn-danger" onclick="closeModal()">Ne</button><br>
-        </div> 
+        </div>
     </div>
     <div class="cart content-wrapper">
         <h1>Vaša korpa:</h1>
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form id="cartForm" method="post">
             <table>
                 <thead>
                     <tr>
@@ -76,7 +59,7 @@ if (isset($_POST['update']) && isset($_SESSION['cart'])) {
                                     <img src="img/<?= $product[7] ?>" width="210" height="180" alt="<?= $product[1] ?>">
                                 </td>
                                 <td class="trash">
-                                    <a href="php/remove.php?remove=<?= $product[1] ?>" class="remove"><i class="fas fa-trash-alt fa-3x"></i></a>
+                                    <a onclick="removeFromCart('<?= $product[1] ?>')" class="remove"><i class="fas fa-trash-alt fa-3x"></i></a>
                                 </td>
                                 <td class="price"><?= $product[4] ?>.00 din</td>
                                 <td class="quantity">
@@ -93,32 +76,60 @@ if (isset($_POST['update']) && isset($_SESSION['cart'])) {
                 <span class="price"><?= $subtotal ?>.00 din</span>
             </div>
             <div class="buttons">
-                <input type="submit" value="Ažuriraj" name="update">
+                <input type="button" value="Ažuriraj" name="update" onclick="updateCart()">
                 <input type="button" value="Poruči" name="order" onclick="modal()">
             </div>
         </form>
     </div>
 </main>
 <script>
-    function modal(){
-        <?php if($products_in_cart){?>
-        $('#pop').addClass('is-visible');
-        <?php }?>
+    function modal() {
+        <?php if ($products_in_cart) { ?>
+            $('#pop').addClass('is-visible');
+        <?php } ?>
     }
 
-    function closeModal(){
+    function closeModal() {
         $('#pop').removeClass('is-visible');
     }
 
-    function order(){
+    function order() {
         closeModal();
         $.ajax({
-        type: 'POST',
-        url: 'php/placeOrder.php',
-        cache: false,
-        success: function(data) {
-          $('#main-cart').html(data);
-        }
-      });
+            type: 'POST',
+            url: 'php/placeOrder.php',
+            cache: false,
+            success: function(data) {
+                $('#main-cart').html(data);
+            }
+        });
+    }
+
+    function updateCart() {
+        var form = $('#cartForm').serialize();
+        $.ajax({
+            url: "php/updateCart.php",
+            method: "POST",
+            data: form,
+            success: function(response) {
+                if (response == "Success") {
+                    showPageAjax('showCart');
+                }
+            }
+        });
+    }
+
+    function removeFromCart(_remove) {
+        $.ajax({
+            type: 'GET',
+            data: {
+                remove: _remove
+            },
+            url: 'php/removeFromCart.php',
+            cache: false,
+            success: function(response) {
+                showPageAjax('showCart');
+            }
+        });
     }
 </script>
