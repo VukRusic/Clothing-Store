@@ -11,6 +11,11 @@ if($_POST['Ime'] != "" && $_POST['Prezime'] != "" && $_POST['Password1'] != "" &
       $email = $mysqli->real_escape_string($_POST['Email']);
       $tip = "korisnik";
 
+      $upit = "select id from nalog where email='$email'";
+      if ($rez = $mysqli->query($upit)) {
+        if($red = $rez->fetch_assoc())
+        die("Već je kreiran nalog za uneti email.");
+      }
       $hashedpassword = hash('sha512', $password);
 
       $upit = "INSERT INTO nalog (Ime, Prezime, Email, Sifra, Tip) VALUES
@@ -19,10 +24,10 @@ if($_POST['Ime'] != "" && $_POST['Prezime'] != "" && $_POST['Password1'] != "" &
         echo "Success";
       }
       else {
-        echo "Greska";
+        echo "Uneto ime je vec zauzeto.";
       }
       $mysqli->close();
 } else {
-  echo "Error";
+  echo "Niste popunili sva polja.";
 }
 ?>

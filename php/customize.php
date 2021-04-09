@@ -123,6 +123,8 @@ if (!$rez = $mysqli->query($upit)) {
         <input type="file" name="upload"><br><br>
     </form>
     <button onclick="createProduct()" class="btn btn-success" id="btnKreiraj">Kreiraj</button>
+    <div class="alert alert-danger" style="visibility: hidden;" role="alert" id="messageProduct">
+    </div>
 </div>
 
 <script>
@@ -219,6 +221,8 @@ if (!$rez = $mysqli->query($upit)) {
                     $("#formCreate")[0].reset();
                 } else {
                     $("#formCreate")[0].reset();
+                    $('.alert').css("visibility","visible");
+                    $('#messageProduct').html(response);
                 }
             }
         });

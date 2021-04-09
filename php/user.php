@@ -60,7 +60,9 @@ $mysqli->close();
         <label for="Sifra" class="info-label">Password:</label>
         <input type="text" class="info-text" name="Sifra" value="<?php echo $sifra ?>" required><br><br>
     </form>
-    <button onclick="updateUser()" class="btn btn-primary infobtn">Ažuriraj podatke</button>
+    <button onclick="updateUser()" class="btn btn-primary infobtn" id="btnUpdateUser">Ažuriraj podatke</button>
+    <div class="alert alert-danger" style="visibility: hidden;" role="alert" id="messageUser">
+    </div>
 </div>
 <div class="col-md-8">
     <h1>Informacije o vašim porudžbinama:</h1>
@@ -106,6 +108,9 @@ $mysqli->close();
             success: function(response) {
                 if (response == "Success") {
                     showPageAjax('user');
+                } else {
+                    $('.alert').css("visibility","visible");
+                    $('#messageUser').html(response);
                 }
             }
         });

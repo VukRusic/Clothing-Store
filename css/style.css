@@ -649,7 +649,6 @@ body.showLoginForm .popup {
 
 .login-page {
   width: 360px;
-  padding: 8% 0 0;
   margin: auto;
 }
 .formRegister {
@@ -881,7 +880,11 @@ main .cart .buttons input:hover {
 }
 
 #btnKreiraj{
-  margin-left: 50px;
+  margin: 0 0 15px 50px;
+}
+
+#btnUpdateUser {
+  margin-bottom: 15px;
 }
 
 #service {

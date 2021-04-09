@@ -6,46 +6,49 @@ $adresa = "";
 $telefon = "";
 $cena = 0;
 $vreme = "";
+if (isset($_POST['submit'])) {
+    if ($_POST['adresa'] != "" && $_POST['telefon'] != "") {
+        $adresa = $mysqli->real_escape_string($_POST['adresa']);
+        $telefon = $mysqli->real_escape_string($_POST['telefon']);
+        $cena = $_SESSION['subtotal'];
+        $vreme = date('Y-m-d H:i:s');
+        $status = "U pripremi";
 
-if (isset($_POST['submit']) && $_POST['adresa'] != "" && $_POST['telefon'] != "") {
-    $adresa = $mysqli->real_escape_string($_POST['adresa']);
-    $telefon = $mysqli->real_escape_string($_POST['telefon']);
-    $cena = $_SESSION['subtotal'];
-    $vreme = date('Y-m-d H:i:s');
-    $status = "U pripremi";
+        $upit = "INSERT INTO narudzbenica (Vreme, Cena, Adresa, Telefon, StatusP) VALUES
+    ('$vreme','$cena','$adresa','$telefon','$status')";
 
-    $upit = "INSERT INTO narudzbenica (Vreme, Cena, Adresa, Telefon, StatusP) VALUES
-('$vreme','$cena','$adresa','$telefon','$status')";
-
-    if ($rez = $mysqli->query($upit)) {
-        echo "Uspesna izvršena porudžbina";
-    } else {
-        echo "Greska" . $mysqli->error;
-    }
-
-    $nalog = $_SESSION['username'];
-
-    $upit = "SELECT MAX(Id) from narudzbenica";
-    $rez = $mysqli->query($upit);
-    $red = $rez->fetch_assoc();
-    $IdNarudz = (int)$red['MAX(Id)'];
-
-
-    if ($products_in_cart) {
-        foreach ($products_in_cart as $name => $quantity) {
-            $upit = "";
-            $upit = "INSERT INTO proizvod_narudzbenica (IdNarudz, NazivProizvoda, Nalog, Kolicina) VALUES
-        ('$IdNarudz','$name','$nalog','$quantity')";
-            $rez = $mysqli->query($upit);
+        if ($rez = $mysqli->query($upit)) {
+            echo "Uspesna izvršena porudžbina";
+        } else {
+            echo "Greska" . $mysqli->error;
         }
+
+        $nalog = $_SESSION['username'];
+
+        $upit = "SELECT MAX(Id) from narudzbenica";
+        $rez = $mysqli->query($upit);
+        $red = $rez->fetch_assoc();
+        $IdNarudz = (int)$red['MAX(Id)'];
+
+
+        if ($products_in_cart) {
+            foreach ($products_in_cart as $name => $quantity) {
+                $upit = "";
+                $upit = "INSERT INTO proizvod_narudzbenica (IdNarudz, NazivProizvoda, Nalog, Kolicina) VALUES
+        ('$IdNarudz','$name','$nalog','$quantity')";
+                $rez = $mysqli->query($upit);
+            }
+        }
+
+        $mysqli->close();
+
+        unset($_SESSION['cart']);
+        $_SESSION['quantity'] = 0;
+        $_SESSION['subtotal'] = 0;
+        header("location: ../index.php");
+    } else {
+        echo "Niste popunili sva polja.";
     }
-
-    $mysqli->close();
-
-    unset($_SESSION['cart']);
-    $_SESSION['quantity'] = 0;
-    $_SESSION['subtotal'] = 0;
-    header("location: ../index.php");
 }
 ?>
 
